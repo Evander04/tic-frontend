@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import useAuthToken from '@/hooks/useAuthToken';
 
 export default function UserDropdown() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -9,6 +10,7 @@ export default function UserDropdown() {
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
+  const {signOut} = useAuthToken();
 
   return (
     <div className="relative">
@@ -25,7 +27,7 @@ export default function UserDropdown() {
           </Link>
           <button
             className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            onClick={() => console.log('Logging out')}
+            onClick={() => signOut()}
           >
             Log Out
           </button>
