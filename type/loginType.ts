@@ -8,3 +8,11 @@ export type LoginResponse = {
     token:String,
     email:String
 }
+
+export type SignupType = {
+    firstName:String,
+    lastName:String,
+    username:String,
+    email:String,
+    password:String
+}

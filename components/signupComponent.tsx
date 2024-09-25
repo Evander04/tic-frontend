@@ -2,13 +2,18 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { signupWS } from '@/api/login';
+import useAuthToken from '@/hooks/useAuthToken';
 
 export default function SignupComponent() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const router = useRouter();
+  const {logIn} = useAuthToken();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,18 +24,18 @@ export default function SignupComponent() {
     }
 
     try {
-      const response = await fetch('https://your-backend-api.com/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const body = {
+        firstName,
+        lastName,
+        username,
+        email,
+        password
+      }      
+      const response:Response|undefined = await signupWS(body);                  
 
-      if (response.ok) {
+      if (response?.ok) {
         const data = await response.json();
-        localStorage.setItem('token', data.token);
-        router.push('/dashboard');
+        logIn(data);
       } else {
         setError('Failed to sign up');
       }
@@ -44,6 +49,36 @@ export default function SignupComponent() {
     <h2 className="text-2xl font-bold mb-6">Sign Up</h2>
     {error && <p className="text-red-500 mb-4">{error}</p>}
     <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium mb-2">First Name</label>
+        <input
+          type="text"
+          className="w-full p-2 border border-gray-300 rounded-md"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium mb-2">Last Name</label>
+        <input
+          type="text"
+          className="w-full p-2 border border-gray-300 rounded-md"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium mb-2">Username</label>
+        <input
+          type="text"
+          className="w-full p-2 border border-gray-300 rounded-md"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+      </div>    
       <div>
         <label className="block text-sm font-medium mb-2">Email</label>
         <input

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { loginWS } from '@/api/login';
 import useAuth from "@/hooks/useAuthToken";
 
@@ -17,11 +16,9 @@ export default function LoginComponent() {
     try {
       const response:Response|undefined = await loginWS({ email, password });
 
-      if (response) {
-        if(response.ok){
-          const data = await response.json();
-          logIn(data);
-        }        
+      if(response?.ok){
+        const data = await response.json();
+        logIn(data);
       } else {
         setError('Invalid login credentials');
       }
