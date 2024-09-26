@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { signupWS } from '@/api/login';
 import useAuthToken from '@/hooks/useAuthToken';
 
