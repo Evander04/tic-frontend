@@ -6,22 +6,14 @@ interface Props {
     board:Array<String|null>,
     localNext:Boolean,
     winner:string | null,
-    restart:Function
+    restart:Function,
+    handleClick:Function
 }
-const Table:FC<Props> = ({board,localNext,winner,restart})=> {
+const Table:FC<Props> = ({board,localNext,winner,restart,handleClick})=> {
   
 
-  const handleClick = (index: number) => {
-    // // Return if there's already a winner or the square is already filled
-    // if (board[index] || winner) return;
-
-    // // Create a copy of the board and update the clicked square
-    // const newBoard = board.slice();
-    // newBoard[index] = localNext ? 'X' : 'O';
-    // setBoard(newBoard);
-
-    // // Switch to the next player
-    // setlocalNext(!localNext);
+  const clickAction = (index: number) => {
+    handleClick(index);
   };
 
   const handleRestart = () => {
@@ -37,7 +29,7 @@ const Table:FC<Props> = ({board,localNext,winner,restart})=> {
           <button
             key={index}
             className="w-20 h-20 text-2xl font-bold border border-gray-400 bg-gray-100"
-            onClick={() => handleClick(index)}
+            onClick={() => clickAction(index)}
           >
             {square}
           </button>

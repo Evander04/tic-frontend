@@ -1,5 +1,5 @@
-export type InitType={
+export type MoveRequestType={
     board:Array<String|null>,
-    nextLocal: Boolean,
-    winner: String
+    localNext: Boolean,
+    index:number    
 }
